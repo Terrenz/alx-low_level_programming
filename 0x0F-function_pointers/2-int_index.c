@@ -1,39 +1,29 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "function_pointers.h"
 
 /**
- * main - check the code for Alx School Student
- * * @argc: argument count.
- * @argv: argument vector.
+ * int_index - searches for an integer
+ * @array: input integer array.
+ * @size: size of the array.
+ * @cmp: pointer to the function to be used
+ * to compare values.
  *
- * Return: Always 0.
+ * Return: index of the first eement for which the cmp
+ * function does not return 0. If no elements matches,
+ * return -1. If size <= 0, return -1.
  */
-int main(int argc, char *argv[])
+int int_index(int *array, int size, int (*cmp)(int))
 {
-	char *opc = (char *) main;
-	int i, nbytes;
+	int i;
 
-	if (argc != 2)
+	if (array && cmp)
 	{
-		printf("Error\n");
-		exit(1);
+		if (size <= 0)
+			return (-1);
+
+		for (i = 0; i < size; i++)
+			if (cmp(array[i]))
+				return (i);
 	}
 
-	nbytes = atoi(argv[1]);
-
-	if (nbytes < 0)
-	{
-		printf("Error\n");
-		exit(2);
-	}
-
-	for (i = 0; i < nbytes; i++)
-	{
-		printf("%02x", opc[i] & 0xFF);
-		if (i != nbytes - 1)
-			printf(" ");
-	}
-
-	printf("\n");
-	return (0);
+	return (-1);
 }
