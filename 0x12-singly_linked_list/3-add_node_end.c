@@ -1,54 +1,41 @@
 #include "lists.h"
 
 /**
- *_strlen - length of a string
- *@s: A pointer to an int that will be updated
- *
- *Return: void
+ * add_node_end - adds a new node at the end
+ * of a list_t list.
+ * @head: head of the linked list.
+ * @str: string to store in the list.
+ * Return: address of the head.
  */
 
-int _strlen(const char *s)
-{
-	int i;
-
-	i = 0;
-	while (s[i] != '\0') /*Count character of string*/
-	{
-		i++;
-	}
-
-	return (i);
-}
-
-/**
- * add_node_end -  adds a new node at the end of a list
- * @head: pointer
- *@str:string
- * Return:  address of the new element
- */
 list_t *add_node_end(list_t **head, const char *str)
 {
-	list_t *new_node, *last_node = *head;
-	/*Using malloc*/
-	new_node = malloc(sizeof(list_t));
+	list_t *new, *temp;
+	size_t nchar;
 
-
-	if (new_node == NULL)
+	new = malloc(sizeof(list_t));
+	if (new == NULL)
 		return (NULL);
 
-	new_node->str = strdup(str); /*Assing data*/
-	new_node->len = _strlen(str);
-	new_node->next = NULL;
+	new->str = strdup(str);
 
-	if (*head == NULL)
+	for (nchar = 0; str[nchar]; nchar++)
+		;
+
+	new->len = nchar;
+	new->next = NULL;
+	temp = *head;
+
+	if (temp == NULL)
 	{
-		*head = new_node;
-		return (*head);
+		*head = new;
 	}
-	while (last_node->next != NULL)
-		last_node = last_node->next;
-
-	last_node->next = new_node;
+	else
+	{
+		while (temp->next != NULL)
+			temp = temp->next;
+		temp->next = new;
+	}
 
 	return (*head);
 }
